@@ -1,4 +1,4 @@
-package com.bezkoder.spring.jpa.h2.model;
+package Example.Tutorial;
 
 import javax.persistence.*;
 
@@ -19,9 +19,7 @@ public class Tutorial {
 	@Column(name = "published")
 	private boolean published;
 
-	public Tutorial() {
-
-	}
+	public Tutorial() {}
 
 	public Tutorial(String title, String description, boolean published) {
 		this.title = title;
@@ -32,27 +30,21 @@ public class Tutorial {
 	public long getId() {
 		return id;
 	}
-
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	public boolean isPublished() {
 		return published;
 	}
-
 	public void setPublished(boolean isPublished) {
 		this.published = isPublished;
 	}
