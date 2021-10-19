@@ -1,13 +1,13 @@
-package com.bezkoder.spring.jpa.h2;
+package Example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootJpaH2Application {
+public class DemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootJpaH2Application.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 }

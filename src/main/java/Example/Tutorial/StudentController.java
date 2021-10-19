@@ -3,93 +3,59 @@ package Example.Tutorial;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:8080")
+@RequestMapping("/api/v1/student")
 @RestController
-@RequestMapping("/api")
-public class TutorialController {
+public class StudentController {
 
-	private final TutorialService tutorialService;
+	private final StudentService studentService;
 
 	@Autowired
-	public TutorialController(TutorialService tutorialService) {
-		this.tutorialService = tutorialService;
-	}
-
-	@GetMapping("/tutorials")
-	public ResponseEntity<List<Student>> getAllTutorials(@RequestParam(required = false) String title) {
-		return tutorialService.alleFinden(title);
-	}
-
-	@GetMapping("/tutorials/published")
-	public ResponseEntity<List<Student>> findByPublished() {
-		return tutorialService.publizierteFinden();
+	public StudentController(StudentService studentService) {
+		this.studentService = studentService;
 	}
 
 /*
-	@GetMapping("/tutorials/{id}")
-	public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") long id) {
-		Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
-
-		if (tutorialData.isPresent()) {
-			return new ResponseEntity<>(tutorialData.get(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	@GetMapping
+	public List<Student> getStudents() {
+		ArrayList<Student> Liste = new ArrayList<>((studentService.getStudents()));
+		Liste.sort(new GehaltSorter());
+		return Liste;
 	}
 */
-/*
-	@PostMapping("/tutorials")
-	public ResponseEntity<Tutorial> createTutorial(@RequestBody Tutorial tutorial) {
-		try {
-			Tutorial _tutorial = tutorialRepository
-					.save(new Tutorial(tutorial.getTitle(), tutorial.getDescription(), true));
-			return new ResponseEntity<>(_tutorial, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+
+	@GetMapping
+	public List<Student> getStudents() {
+		return studentService.getStudents();
 	}
 
-	@PutMapping("/tutorials/{id}")
-	public ResponseEntity<Tutorial> updateTutorial(@PathVariable("id") long id, @RequestBody Tutorial tutorial) {
-		Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
 
-		if (tutorialData.isPresent()) {
-			Tutorial _tutorial = tutorialData.get();
-			_tutorial.setTitle(tutorial.getTitle());
-			_tutorial.setDescription(tutorial.getDescription());
-			_tutorial.setPublished(tutorial.isPublished());
-			return new ResponseEntity<>(tutorialRepository.save(_tutorial), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+	@GetMapping(path = "/reich")
+	public List<Student> getStudentsrich() {
+		return studentService.getStudentsrich();
 	}
 
-	@DeleteMapping("/tutorials/{id}")
-	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
-		try {
-			tutorialRepository.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	@DeleteMapping(path = "/{id}")
+	public void deleteStudent(@PathVariable("id") long id) {
+		studentService.deleteStudent(id);
 	}
 
-	@DeleteMapping("/tutorials")
-	public ResponseEntity<HttpStatus> deleteAllTutorials() {
-		try {
-			tutorialRepository.deleteAll();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	@DeleteMapping(path = "/gehalt/{gehalt}")
+	public void deleteStudentgehalt(@PathVariable("gehalt") long gehalt) {
+		studentService.deleteStudentgehalt(gehalt);
+	}
 
-	}*/
+
+	@PostMapping
+	public void  registerNewStudent (@RequestBody Student student) {
+		studentService.addNewStudent(student);
+	}
+
+	@PutMapping(path = "/{id}")
+	public void update(@PathVariable("id") final Long id, @RequestBody final Student student) {
+		studentService.update(id, student);
+	}
 
 }

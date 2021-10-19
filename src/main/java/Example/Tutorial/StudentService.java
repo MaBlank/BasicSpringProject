@@ -4,41 +4,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class TutorialService {
+public class StudentService {
 
-    private final TutorialRepository tutorialRepository;
+    private final StudentRepository studentRepository;
 
     @Autowired
-    public TutorialService(TutorialService tutorialService) {
-        this.tutorialRepository = tutorialRepository;
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
-    public ResponseEntity<List<Student>> publizierteFinden() {
-        return (ResponseEntity<List<Student>>) tutorialRepository.findByPublished(true);
+    public List<Student> getStudents() {
+        return studentRepository.
+                findAll().
+                stream().
+                sorted(Comparator.comparing(Student::getGehalt).reversed().thenComparing(Student::getAge)).
+                collect(Collectors.toList());
     }
 
-    public static ResponseEntity<List<Student>> alleFinden(@RequestParam(required = false) String title) {
-        try {
-            List<Student> tutorials = new ArrayList<Student>();
+    public List<Student> getStudentsrich() {
+        return studentRepository.
+                findAll().
+                stream().
+                filter(Student -> Student.getGehalt() > 5000).
+                collect(Collectors.toList());
+    }
 
-            if (title == null)
-                tutorialRepository.findAll().forEach(tutorials::add);
-            else
-                tutorialRepository.findByTitleContaining(title).forEach(tutorials::add);
+    public void addNewStudent(Student student) {
+        studentRepository.save(student);
+    }
 
-            if (tutorials.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(tutorials, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    public void deleteStudent(long id) {
+        boolean exists = studentRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalArgumentException(
+               "student does not exist"
+            );
         }
+        studentRepository.deleteById(id);
+    }
+
+    public void deleteStudentgehalt(long gehalt) {
+        studentRepository.deleteStudentgehalt(gehalt);
+    }
+
+    public void update(Long id, Student student) {
+        studentRepository.findById(id).
+        map(s -> {
+            s.setGehalt(student.getGehalt());
+            return studentRepository.save(s);
+        });
     }
 }

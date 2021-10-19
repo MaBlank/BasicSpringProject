@@ -1,57 +1,70 @@
 package Example.Tutorial;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tutorials")
-public class Tutorial {
+@Table(name = "student")
+@Getter
+@Setter
+@NoArgsConstructor // <--- THIS is it
+public class Student {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(
+			name = "student_sequence",
+			sequenceName = "student_sequence",
+			allocationSize = 1
+	)
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "student_sequence")
 	private long id;
 
-	@Column(name = "title")
-	private String title;
+	@Column(name = "name")
+	private String name;
 
-	@Column(name = "description")
-	private String description;
+	@Column(name = "age")
+	private long age;
 
-	@Column(name = "published")
-	private boolean published;
+	@Column(name = "Gehalt")
+	private long gehalt;
 
-	public Tutorial() {}
+	@Transient
+	private long rente;
 
-	public Tutorial(String title, String description, boolean published) {
-		this.title = title;
-		this.description = description;
-		this.published = published;
-	}
 
-	public long getId() {
-		return id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public boolean isPublished() {
-		return published;
-	}
-	public void setPublished(boolean isPublished) {
-		this.published = isPublished;
+	// public Student() {}
+
+	public Student(long id, String name, long age, long gehalt) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.gehalt = gehalt;
 	}
 
 	@Override
 	public String toString() {
-		return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+		return "Student{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", age=" + age +
+				", gehalt=" + gehalt +
+				", rente=" + rente +
+				'}';
+	}
+
+	public long getRente() {
+		return getGehalt() * 2;
+	}
+
+	public int compareTo(Student other){
+		if(getGehalt() > other.getGehalt()) return 1;
+		else if(getGehalt() < other.getGehalt()) return -1;
+		else return 0;
 	}
 
 }
