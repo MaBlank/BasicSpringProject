@@ -1,4 +1,4 @@
-package Example.Tutorial;
+package Example.Tutorial.Entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +10,8 @@ import javax.persistence.*;
 @Table(name = "student")
 @Getter
 @Setter
-@NoArgsConstructor // <--- THIS is it
+@NoArgsConstructor
 public class Student {
-
 	@Id
 	@SequenceGenerator(
 			name = "student_sequence",
@@ -27,7 +26,7 @@ public class Student {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "age")
+	@Column(name = "age", nullable = false, updatable = true)
 	private long age;
 
 	@Column(name = "Gehalt")

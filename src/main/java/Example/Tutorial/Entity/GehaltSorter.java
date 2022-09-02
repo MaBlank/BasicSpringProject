@@ -1,4 +1,6 @@
-package Example.Tutorial;
+package Example.Tutorial.Entity;
+
+import Example.Tutorial.Entity.Student;
 
 import java.util.Comparator;
 

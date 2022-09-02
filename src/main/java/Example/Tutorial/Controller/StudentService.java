@@ -1,20 +1,21 @@
-package Example.Tutorial;
+package Example.Tutorial.Controller;
 
+import Example.Tutorial.Entity.Student;
+import Example.Tutorial.Entity.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
 
+    @Autowired
     private final StudentRepository studentRepository;
 
-    @Autowired
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
@@ -27,12 +28,19 @@ public class StudentService {
                 collect(Collectors.toList());
     }
 
-    public List<Student> getStudentsrich() {
+    public List<Student> getStudentsRich(int gehalt) {
         return studentRepository.
                 findAll().
                 stream().
-                filter(Student -> Student.getGehalt() > 5000).
+                filter(Student -> Student.getGehalt() > gehalt).
                 collect(Collectors.toList());
+    }
+
+    public Optional<Student> getStudentsbyId(Long id) {
+        return Optional
+                .ofNullable(studentRepository
+                        .findById(id)
+                        .orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found")));
     }
 
     public void addNewStudent(Student student) {

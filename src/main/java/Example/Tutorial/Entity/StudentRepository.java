@@ -1,6 +1,4 @@
-package Example.Tutorial;
-
-import java.util.Optional;
+package Example.Tutorial.Entity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
