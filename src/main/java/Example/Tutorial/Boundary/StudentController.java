@@ -38,11 +38,13 @@ public class StudentController {
 	@GetMapping(path = "/reich/{gehalt}")
 	public List<Student> getStudentsRich(@PathVariable("gehalt") int gehalt ) {
 		return studentService.getStudentsRich(gehalt);
+		// 1,2,3
 	}
 
 	@GetMapping(path = "/{id}")
 	public Student getStudentsbyId(@PathVariable("id") final Long id) {
 		return studentService.getStudentsbyId(id).get();
+		// 1,2,3
 	}
 
 
