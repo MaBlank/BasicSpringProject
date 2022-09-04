@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
@@ -14,6 +16,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Modifying
     @Query("delete from Student s where gehalt =:gehalt")
     void deleteStudentgehalt(@Param("gehalt") long gehalt);
+
+
 
     // Optional<Student> findStudentbyID(Long id);
 }

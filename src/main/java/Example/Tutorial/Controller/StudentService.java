@@ -3,6 +3,7 @@ package Example.Tutorial.Controller;
 import Example.Tutorial.Entity.Student;
 import Example.Tutorial.Entity.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -68,4 +69,5 @@ public class StudentService {
             return studentRepository.save(s);
         });
     }
+
 }
