@@ -40,26 +40,7 @@ public class StudentController {
 	public String httpTest() throws IOException, InterruptedException {
 		 // https://www.youtube.com/watch?v=5MmlRZZxTqk
 		 // https://www.baeldung.com/jackson-object-mapper-tutorial#2-json-to-java-object
-
-		 final String POSTS_API_URL = "https://jsonplaceholder.typicode.com/posts/1";
-
-		 return new ObjectMapper()
-				 .readValue(
-						 HttpClient
-						 .newHttpClient()
-						 .send(
-								 HttpRequest
-								 .newBuilder()
-								 .GET()
-								 .header("accept", "application/json")
-								 .uri(URI.create(POSTS_API_URL))
-								 .build(),
-								 HttpResponse
-								 .BodyHandlers
-								 .ofString())
-						 .body(),
-						 Test.class)
-				 .getTitle();
+		return studentService.httpTest();
 	}
 
 	@GetMapping("/all")
